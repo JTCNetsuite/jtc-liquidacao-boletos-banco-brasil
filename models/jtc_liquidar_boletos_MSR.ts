@@ -34,7 +34,7 @@ export const getInputData = () => {
                 filters: [
                     [CTS.RT_CNAB_PARCELA.NOSSO_NUM, search.Operator.HASKEYWORDS, String(nossoNUm)],
                     "AND",
-                    ["custrecord_jtc_int_boleto_pago", search.Operator.IS, "T"]
+                    ["custrecord_jtc_int_boleto_pago", search.Operator.IS, "F"]
                 ]
                 ,
                 columns: [
@@ -104,8 +104,8 @@ export const map = (ctx: EntryPoints.MapReduce.mapContext) => {
 
             const subId = custmerPayment.getValue(CTS.COSTUMER_PAYMENT.SUBSIDIARY)
             if (subId == 3) {
-                custmerPayment.setValue({fieldId: CTS.COSTUMER_PAYMENT.ACCOUNT, value: 724})
-                custmerPayment.setValue({fieldId: CTS.COSTUMER_PAYMENT.ACCOUNT_CUSTOM, value: 620})
+                custmerPayment.setValue({fieldId: CTS.COSTUMER_PAYMENT.ACCOUNT, value: 620})
+                // custmerPayment.setValue({fieldId: CTS.COSTUMER_PAYMENT.ACCOUNT_CUSTOM, value: 620})
             } else {
                 custmerPayment.setValue({fieldId: CTS.COSTUMER_PAYMENT.ACCOUNT_CUSTOM, value: 620})
             }
@@ -167,18 +167,18 @@ export const map = (ctx: EntryPoints.MapReduce.mapContext) => {
                 }
             }
 
-            // const idCostumrPay = custmerPayment.save({ignoreMandatoryFields: true})
+            const idCostumrPay = custmerPayment.save({ignoreMandatoryFields: true})
 
-            // if (!!idCostumrPay) {
+            if (!!idCostumrPay) {
                 const recParcela = record.load({
                     id: idCnabParcela,
                     type: CTS.RT_CNAB_PARCELA.ID
                 })
                 recParcela.setValue({fieldId: 'custrecord_jtc_int_boleto_pago', value: true })
-                // const idRet = recParcela.save()
-                // log.audit("id Custumer ", idCostumrPay)
-                // log.audit("id ParcelaCnab ", idRet)
-            // }
+                const idRet = recParcela.save()
+                log.audit("id Custumer ", idCostumrPay)
+                log.audit("id ParcelaCnab ", idRet)
+            }
         }
 
     } catch (error) {
