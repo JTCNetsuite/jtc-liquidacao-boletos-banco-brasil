@@ -167,7 +167,7 @@ export const map = (ctx: EntryPoints.MapReduce.mapContext) => {
                 }
             }
 
-            const idCostumrPay = custmerPayment.save({ignoreMandatoryFields: true})
+            const idCostumrPay = custmerPayment.save()
 
             if (!!idCostumrPay) {
                 const recParcela = record.load({
